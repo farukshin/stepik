@@ -1,3 +1,4 @@
+//#tech_debt
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -9,29 +10,43 @@ using namespace std;
 typedef long long ll;
 typedef long double ld;
 
+string ltrim(string s, char ch)
+{
+    int i = 0, j;
+    while (s[i] == ch)
+    {
+        i++;
+    }
+    string ans = "";
+    if (i > 0)
+        for (j = 0; j < s.size(); j++)
+            ans += s[j + i];
+    else
+        ans = s;
+
+    return ans;
+}
+
 void solve()
 {
     string s;
     cin >> s;
-    int add = 1;
+    int min = 1;
     for (int i = s.size() - 1; i >= 0; i--)
     {
-        if (add)
+        if (min)
         {
             if (s[i] == '1')
-                s[i] = '0';
-            else
             {
-                add = 0;
-                s[i] = '1';
+                s[i] = '0';
+                min = 0;
             }
+            else
+                s[i] = '1';
         }
     }
 
-    if (add)
-        cout << '1';
-
-    cout << s << endl;
+    cout << ltrim(s, '0') << endl;
 }
 
 int main()
