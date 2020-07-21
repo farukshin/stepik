@@ -1,4 +1,3 @@
-// #tech_debt
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -7,40 +6,33 @@ typedef long double ld;
 
 const int MAX = 1005;
 vector<vector<int>> ss(MAX, vector<int>());
-int used[MAX];
-queue<pair<int, int>> q;
-int n, m, ans = 0;
+bool used[MAX];
+bool usedLocal[MAX];
 
-void dfs(pair<int, int> v)
+void bfs(int v, int &ans)
 {
-    q.push(v);
-    int d[MAX] = {0};
-    bool usedLocal[MAX];
-    int curD = 0;
+    queue<pair<int, int>> q;
 
+    q.push({v, 0});
     while (!q.empty())
     {
-        v = q.front();
+        auto cur = q.front();
         q.pop();
-        curD++;
-        for (int chield : ss[v.first])
-        {
-            if (usedLocal[chield])
-                continue;
 
-            usedLocal[chield] = true;
-            q.push({chield, v.second + 1});
-            d[chield] = curD;
-        }
+        for (auto chield : ss[cur.first])
+            if (!usedLocal[chield])
+            {
+                usedLocal[chield] = true;
+                q.push({chield, cur.second + 1});
+                if (!used[chield])
+                    ans += cur.second + 1;
+            }
     }
-
-    for (int i = 1; i <= n; i++)
-        ans += used[i] * d[i];
 }
 
 void solve()
 {
-
+    int n, m;
     cin >> n >> m;
 
     for (int i = 1; i <= m; i++)
@@ -51,12 +43,14 @@ void solve()
         ss[v].push_back(u);
     }
 
-    memset(used, 1, sizeof(used));
-
+    int ans = 0;
+    memset(used, false, sizeof(used));
     for (int i = 1; i <= n; i++)
     {
-        used[i] = 0;
-        dfs({i, 0});
+        used[i] = true;
+        memset(usedLocal, false, sizeof(usedLocal));
+        usedLocal[i] = true;
+        bfs(i, ans);
     }
 
     cout << ans << endl;
