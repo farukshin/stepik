@@ -1,3 +1,4 @@
+// #tech_debt
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -64,8 +65,8 @@ void solve()
     int n, m;
     cin >> n >> m;
 
-    char ans[2 * n + 1][2 * m + 1] = {' '};
-    bool used[n + 2][m + 2] = {false};
+    //char ans[2 * n + 1][2 * m + 1] = {' '};
+    //bool used[n + 2][m + 2] = {false};
 
     pair<int, int> stock;
     vector<pair<int, int>> d;
@@ -87,8 +88,7 @@ void solve()
 
     for (auto ut : d)
         if (!bfs(ut, stock))
-            //ans[ut.first][ut.second] = ' ';
-            ;
+            ans[ut.first][ut.second] = ' ';
 
     for (int i = 0; i < 2 * n + 1; i++)
     {
