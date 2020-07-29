@@ -1,4 +1,3 @@
-// #tech_debt
 #include <bits/stdc++.h>
 using namespace std;
 
