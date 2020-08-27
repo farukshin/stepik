@@ -1,4 +1,3 @@
-//#tech_debt
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -10,31 +9,30 @@ using namespace std;
 typedef long long ll;
 typedef long double ld;
 
-int paperNumber(int x, int y, int t)
+int countCopy(int x, int y, int t)
 {
-    return t * max(x, y) + (t - 1) * min(x, y);
+    return t / x + abs(t - x) / y;
 }
 
 void solve()
 {
-    int n, x, y;
+    int x, y;
+    int n;
     cin >> n >> x >> y;
 
-    int l = 1, r = max(x, y) * n, mid, preMid = -1;
-    bool fl = true;
+    if (x > y)
+        swap(x, y);
 
-    while (r - l > 1)
+    unsigned int l = 0, r = n * (x + y);
+
+    while (l + 1 < r)
     {
-        mid = (l + r) / 2;
-        //cout << "l=" << l << " r=" << r << " mid=" << mid << " paperNumber=" << paperNumber(x, y, mid) << endl;
-        if (paperNumber(x, y, mid) >= n)
+        int mid = (l + r) / 2;
+        if (countCopy(x, y, mid) >= n)
             r = mid;
         else
             l = mid;
     }
-    mid = (l + r) / 2;
-    if (paperNumber(x, y, mid) >= n)
-        r = mid;
     cout << r << endl;
 }
 
